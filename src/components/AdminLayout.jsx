@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, Search, Link2, LogOut, User } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Search, Link2, LogOut, User, Menu, X } from 'lucide-react';
 import '../Admin.css';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     navigate('/admin/login');
   };
+
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
   const navItems = [
     { name: 'الإحصائيات', path: '/admin', icon: LayoutDashboard },
@@ -21,9 +24,12 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className="admin-body">
-      <div className="admin-wrapper" dir="rtl">
+      <div className={`admin-wrapper ${isSidebarOpen ? 'sidebar-open' : ''}`} dir="rtl">
+        {/* Mobile Backdrop */}
+        {isSidebarOpen && <div className="mobile-overlay" onClick={toggleSidebar} />}
+
         {/* Sidebar */}
-        <aside className="admin-sidebar">
+        <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
           <div className="sidebar-header">
             <div className="sidebar-logo">
               <ShieldCheck size={24} color="white" />
@@ -32,6 +38,9 @@ const AdminLayout = ({ children }) => {
               <h2 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, color: 'white' }}>تحقق الإدارة</h2>
               <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: 0 }}>نظام كشف التضليل</p>
             </div>
+            <button className="sidebar-close-btn" onClick={toggleSidebar}>
+              <X size={24} />
+            </button>
           </div>
           
           <nav className="sidebar-nav">
@@ -43,6 +52,7 @@ const AdminLayout = ({ children }) => {
                   key={item.path}
                   to={item.path}
                   className={`nav-link-premium ${isActive ? 'active' : ''}`}
+                  onClick={() => setSidebarOpen(false)}
                 >
                   <Icon size={20} />
                   <span>{item.name}</span>
@@ -62,11 +72,16 @@ const AdminLayout = ({ children }) => {
         {/* Main Content */}
         <main className="admin-main">
           <header className="admin-header">
-            <div className="header-title">
-              <h1>
-                {navItems.find(i => i.path === location.pathname)?.name || 'النشاط الحالي'}
-              </h1>
-              <p>مرحباً بعودتك إلى لوحة التحكم</p>
+            <div className="header-left">
+              <button className="mobile-menu-btn" onClick={toggleSidebar}>
+                <Menu size={24} />
+              </button>
+              <div className="header-title">
+                <h1>
+                  {navItems.find(i => i.path === location.pathname)?.name || 'النشاط الحالي'}
+                </h1>
+                <p>مرحباً بعودتك إلى لوحة التحكم</p>
+              </div>
             </div>
             
             <div className="user-profile">
