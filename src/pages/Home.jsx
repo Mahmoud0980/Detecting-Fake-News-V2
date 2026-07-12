@@ -18,14 +18,24 @@ const Home = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://jorjekhan-001-site1.site4future.com/api/analyze.php",
+        "https://fakenewsv2-001-site1.gtempurl.com/api/analyze.php",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text, url }),
         },
       );
+      
+      if (!response.ok) {
+        throw new Error(`خطأ من الخادم: ${response.status}`);
+      }
+      
       const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
       navigate("/result", { state: { result: data } });
     } catch (error) {
       console.error("Error analyzing news:", error);

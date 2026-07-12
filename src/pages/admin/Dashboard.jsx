@@ -7,7 +7,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=get_stats')
+    fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=get_stats', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+    })
       .then(res => res.json())
       .then(data => {
         setStats(data);

@@ -10,7 +10,9 @@ const SourceManagement = () => {
 
   const fetchSources = () => {
     setLoading(true);
-    fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=get_sources')
+    fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=get_sources', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+    })
       .then(res => res.json())
       .then(data => {
         setSources(data);
@@ -24,10 +26,13 @@ const SourceManagement = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=add_source', {
+    fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=add_source', {
       method: 'POST',
       body: JSON.stringify({ name: newName, domain: newDomain }),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+      }
     }).then(() => {
       setNewName('');
       setNewDomain('');
@@ -37,7 +42,9 @@ const SourceManagement = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('هل أنت متأكد من حذف هذا المصدر؟')) {
-      fetch(`https://jorjekhan-001-site1.site4future.com/api/admin.php?action=delete_source&id=${id}`)
+      fetch(`https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=delete_source&id=${id}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+      })
         .then(() => fetchSources());
     }
   };

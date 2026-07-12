@@ -33,10 +33,10 @@ const Result = () => {
         <div className="reasons-list">
           <h3>الأسباب والتفاصيل:</h3>
           <ul>
-            {result.reasons.map((reason, index) => (
+            {(result.reasons || []).map((reason, index) => (
               <li key={index}>{reason}</li>
             ))}
-            {result.matched_keywords.length === 0 && !result.is_trusted_source && (
+            {(result.matched_keywords || []).length === 0 && !result.is_trusted_source && (
               <li>لم يتم العثور على كلمات مشبوهة أو مصادر معروفة، النتيجة معتدلة.</li>
             )}
           </ul>

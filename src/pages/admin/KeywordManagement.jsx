@@ -10,7 +10,9 @@ const KeywordManagement = () => {
 
   const fetchKeywords = () => {
     setLoading(true);
-    fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=get_keywords')
+    fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=get_keywords', {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+    })
       .then(res => res.json())
       .then(data => {
         setKeywords(data);
@@ -24,10 +26,13 @@ const KeywordManagement = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=add_keyword', {
+    fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=add_keyword', {
       method: 'POST',
       body: JSON.stringify({ keyword: newKeyword, weight: newWeight }),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+      }
     }).then(() => {
       setNewKeyword('');
       fetchKeywords();
@@ -36,7 +41,9 @@ const KeywordManagement = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('هل أنت متأكد من حذف هذه الكلمة؟')) {
-      fetch(`https://jorjekhan-001-site1.site4future.com/api/admin.php?action=delete_keyword&id=${id}`)
+      fetch(`https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=delete_keyword&id=${id}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+      })
         .then(() => fetchKeywords());
     }
   };

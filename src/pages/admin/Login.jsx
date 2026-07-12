@@ -14,7 +14,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await fetch('https://jorjekhan-001-site1.site4future.com/api/admin.php?action=login', {
+            const response = await fetch('https://fakenewsv2-001-site1.gtempurl.com/api/admin.php?action=login', {
                 method: 'POST',
                 body: JSON.stringify({ username, password }),
                 headers: { 'Content-Type': 'application/json' }
