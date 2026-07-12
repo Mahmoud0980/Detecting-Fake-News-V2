@@ -15,7 +15,12 @@ const KeywordManagement = () => {
     })
       .then(res => res.json())
       .then(data => {
-        setKeywords(data);
+        setKeywords(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setKeywords([]);
         setLoading(false);
       });
   };

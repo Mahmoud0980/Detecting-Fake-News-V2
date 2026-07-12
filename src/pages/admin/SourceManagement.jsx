@@ -15,7 +15,12 @@ const SourceManagement = () => {
     })
       .then(res => res.json())
       .then(data => {
-        setSources(data);
+        setSources(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setSources([]);
         setLoading(false);
       });
   };

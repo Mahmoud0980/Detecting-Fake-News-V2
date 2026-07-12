@@ -12,7 +12,12 @@ const AnalysisLogs = () => {
     })
       .then(res => res.json())
       .then(data => {
-        setLogs(data);
+        setLogs(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLogs([]);
         setLoading(false);
       });
   }, []);
